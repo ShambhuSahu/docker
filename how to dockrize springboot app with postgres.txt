@@ -1,0 +1,31 @@
+how to dockerize spring boot application 
+
+1) create spring boot application with postgres database 
+2) Create Dockerfile
+
+-----
+
+FROM openjdk:19
+
+
+COPY target/one-to-many-0.0.1-SNAPSHOT.jar .
+
+ENTRYPOINT ["java" , "-jar" ,"one-to-many-0.0.1-SNAPSHOT.jar"]
+
+----
+
+
+3) docker build -t employee
+
+4) create network 
+  --- docker network create network_name
+
+5) create postgres container with network_name
+  --- docker run --name postgres -p 5432:5432 -e POSTGRES_DB=employee-db --network my_network -e POSTGRES_PASSWORD=mysecretpassword -d postgres
+
+6) create container for your application with network_name and postgres configuration
+
+docker run --name employeeinstance --network my_network -e SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/employee-db
+ -e SPRING_DATASOURCE_USERNAME=postgres -e spring.jpa.hibernate.ddl-auto=update -p 8080:8080 -e SPRING_DATASOURCE_PASSWORD=mysecretpassword employee
+
+
