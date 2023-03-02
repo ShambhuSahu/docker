@@ -8,7 +8,7 @@ how to dockerize spring boot application
 FROM openjdk:19
 
 
-COPY target/one-to-many-0.0.1-SNAPSHOT.jar .
+ADD target/one-to-many-0.0.1-SNAPSHOT.jar .
 
 ENTRYPOINT ["java" , "-jar" ,"one-to-many-0.0.1-SNAPSHOT.jar"]
 
